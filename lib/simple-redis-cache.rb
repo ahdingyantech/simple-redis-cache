@@ -1,0 +1,2 @@
+module SimpleRedisCache
+end

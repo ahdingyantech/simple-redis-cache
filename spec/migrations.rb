@@ -2,6 +2,7 @@ class CategoryMigration < ActiveRecord::Migration
   def self.up
     create_table :categories, :force => true do |t|
       t.string :name
+      t.timestamps
     end
   end
 
@@ -15,6 +16,8 @@ class PostMigration < ActiveRecord::Migration
     create_table :posts, :force => true do |t|
       t.string :name
       t.integer :creator_id
+      t.integer :category_id
+      t.timestamps
     end
   end
 
@@ -27,6 +30,7 @@ class UserMigration < ActiveRecord::Migration
   def self.up
     create_table :users, :force => true do |t|
       t.string :name
+      t.timestamps
     end
   end
 

@@ -36,6 +36,34 @@ describe SimpleRedisCache do
     @category_1.posts_count_of_user_db(@user_2).should == 0
     @category_2.posts_count_of_user_db(@user_1).should == 0
     @category_2.posts_count_of_user_db(@user_2).should == 0
+    
+    @user_1.posts.should == []
+    @user_2.posts.should == []
+    @category_1.posts.should == []
+    @category_2.posts.should == []
+
+    @user_1.posts_count.should == '0'
+    @user_2.posts_count.should == '0'
+    @category_1.posts_count.should == '0'
+    @category_2.posts_count.should == '0'
+
+    @user_1.posts_of_category(@category_1).should == []
+    @user_1.posts_of_category(@category_2).should == []
+    @user_2.posts_of_category(@category_1).should == []
+    @user_2.posts_of_category(@category_2).should == []
+    @category_1.posts_of_user(@user_1).should == []
+    @category_1.posts_of_user(@user_2).should == []
+    @category_2.posts_of_user(@user_1).should == []
+    @category_2.posts_of_user(@user_2).should == []
+
+    @user_1.posts_count_of_category(@category_1).should == '0'
+    @user_1.posts_count_of_category(@category_2).should == '0'
+    @user_2.posts_count_of_category(@category_1).should == '0'
+    @user_2.posts_count_of_category(@category_2).should == '0'
+    @category_1.posts_count_of_user(@user_1).should == '0'
+    @category_1.posts_count_of_user(@user_2).should == '0'
+    @category_2.posts_count_of_user(@user_1).should == '0'
+    @category_2.posts_count_of_user(@user_2).should == '0'
 
     # user_1 category_1 2
     @post_1 = @user_1.posts_db.create!(:name => 'post_1', :category => @category_1)
@@ -72,7 +100,34 @@ describe SimpleRedisCache do
     @category_1.posts_count_of_user_db(@user_2).should == 0
     @category_2.posts_count_of_user_db(@user_1).should == 0
     @category_2.posts_count_of_user_db(@user_2).should == 0
+    
+    @user_1.posts.should == [@post_2, @post_1]
+    @user_2.posts.should == []
+    @category_1.posts.should == [@post_2, @post_1]
+    @category_2.posts.should == []
 
+    @user_1.posts_count.should == '2'
+    @user_2.posts_count.should == '0'
+    @category_1.posts_count.should == '2'
+    @category_2.posts_count.should == '0'
+
+    @user_1.posts_of_category(@category_1).should == [@post_2, @post_1]
+    @user_1.posts_of_category(@category_2).should == []
+    @user_2.posts_of_category(@category_1).should == []
+    @user_2.posts_of_category(@category_2).should == []
+    @category_1.posts_of_user(@user_1).should == [@post_2, @post_1]
+    @category_1.posts_of_user(@user_2).should == []
+    @category_2.posts_of_user(@user_1).should == []
+    @category_2.posts_of_user(@user_2).should == []
+
+    @user_1.posts_count_of_category(@category_1).should == '2'
+    @user_1.posts_count_of_category(@category_2).should == '0'
+    @user_2.posts_count_of_category(@category_1).should == '0'
+    @user_2.posts_count_of_category(@category_2).should == '0'
+    @category_1.posts_count_of_user(@user_1).should == '2'
+    @category_1.posts_count_of_user(@user_2).should == '0'
+    @category_2.posts_count_of_user(@user_1).should == '0'
+    @category_2.posts_count_of_user(@user_2).should == '0'
 
     # user_1 category_2 2
     @post_3 = @user_1.posts_db.create!(:name => 'post_3', :category => @category_2)
@@ -109,7 +164,34 @@ describe SimpleRedisCache do
     @category_1.posts_count_of_user_db(@user_2).should == 0
     @category_2.posts_count_of_user_db(@user_1).should == 2
     @category_2.posts_count_of_user_db(@user_2).should == 0
+    
+    @user_1.posts.should == [@post_4, @post_3, @post_2, @post_1]
+    @user_2.posts.should == []
+    @category_1.posts.should == [@post_2, @post_1]
+    @category_2.posts.should == [@post_4, @post_3]
 
+    @user_1.posts_count.should == '4'
+    @user_2.posts_count.should == '0'
+    @category_1.posts_count.should == '2'
+    @category_2.posts_count.should == '2'
+
+    @user_1.posts_of_category(@category_1).should == [@post_2, @post_1]
+    @user_1.posts_of_category(@category_2).should == [@post_4, @post_3]
+    @user_2.posts_of_category(@category_1).should == []
+    @user_2.posts_of_category(@category_2).should == []
+    @category_1.posts_of_user(@user_1).should == [@post_2, @post_1]
+    @category_1.posts_of_user(@user_2).should == []
+    @category_2.posts_of_user(@user_1).should == [@post_4, @post_3]
+    @category_2.posts_of_user(@user_2).should == []
+
+    @user_1.posts_count_of_category(@category_1).should == '2'
+    @user_1.posts_count_of_category(@category_2).should == '2'
+    @user_2.posts_count_of_category(@category_1).should == '0'
+    @user_2.posts_count_of_category(@category_2).should == '0'
+    @category_1.posts_count_of_user(@user_1).should == '2'
+    @category_1.posts_count_of_user(@user_2).should == '0'
+    @category_2.posts_count_of_user(@user_1).should == '2'
+    @category_2.posts_count_of_user(@user_2).should == '0'
 
     # user_2 category_1 2
     @post_5 = @user_2.posts_db.create!(:name => 'post_5', :category => @category_1)
@@ -147,6 +229,33 @@ describe SimpleRedisCache do
     @category_2.posts_count_of_user_db(@user_1).should == 2
     @category_2.posts_count_of_user_db(@user_2).should == 0
 
+    @user_1.posts.should == [@post_4, @post_3, @post_2, @post_1]
+    @user_2.posts.should == [@post_6, @post_5]
+    @category_1.posts.should == [@post_6, @post_5, @post_2, @post_1]
+    @category_2.posts.should == [@post_4, @post_3]
+
+    @user_1.posts_count.should == '4'
+    @user_2.posts_count.should == '2'
+    @category_1.posts_count.should == '4'
+    @category_2.posts_count.should == '2'
+
+    @user_1.posts_of_category(@category_1).should == [@post_2, @post_1]
+    @user_1.posts_of_category(@category_2).should == [@post_4, @post_3]
+    @user_2.posts_of_category(@category_1).should == [@post_6, @post_5]
+    @user_2.posts_of_category(@category_2).should == []
+    @category_1.posts_of_user(@user_1).should == [@post_2, @post_1]
+    @category_1.posts_of_user(@user_2).should == [@post_6, @post_5]
+    @category_2.posts_of_user(@user_1).should == [@post_4, @post_3]
+    @category_2.posts_of_user(@user_2).should == []
+
+    @user_1.posts_count_of_category(@category_1).should == '2'
+    @user_1.posts_count_of_category(@category_2).should == '2'
+    @user_2.posts_count_of_category(@category_1).should == '2'
+    @user_2.posts_count_of_category(@category_2).should == '0'
+    @category_1.posts_count_of_user(@user_1).should == '2'
+    @category_1.posts_count_of_user(@user_2).should == '2'
+    @category_2.posts_count_of_user(@user_1).should == '2'
+    @category_2.posts_count_of_user(@user_2).should == '0'
 
     # user_2 category_2 2
     @post_7 = @user_2.posts_db.create!(:name => 'post_7', :category => @category_2)
@@ -184,5 +293,32 @@ describe SimpleRedisCache do
     @category_2.posts_count_of_user_db(@user_1).should == 2
     @category_2.posts_count_of_user_db(@user_2).should == 2
 
+    @user_1.posts.should == [@post_4, @post_3, @post_2, @post_1]
+    @user_2.posts.should == [@post_8, @post_7, @post_6, @post_5]
+    @category_1.posts.should == [@post_6, @post_5, @post_2, @post_1]
+    @category_2.posts.should == [@post_8, @post_7, @post_4, @post_3]
+
+    @user_1.posts_count.should == '4'
+    @user_2.posts_count.should == '4'
+    @category_1.posts_count.should == '4'
+    @category_2.posts_count.should == '4'
+
+    @user_1.posts_of_category(@category_1).should == [@post_2, @post_1]
+    @user_1.posts_of_category(@category_2).should == [@post_4, @post_3]
+    @user_2.posts_of_category(@category_1).should == [@post_6, @post_5]
+    @user_2.posts_of_category(@category_2).should == [@post_8, @post_7]
+    @category_1.posts_of_user(@user_1).should == [@post_2, @post_1]
+    @category_1.posts_of_user(@user_2).should == [@post_6, @post_5]
+    @category_2.posts_of_user(@user_1).should == [@post_4, @post_3]
+    @category_2.posts_of_user(@user_2).should == [@post_8, @post_7]
+
+    @user_1.posts_count_of_category(@category_1).should == '2'
+    @user_1.posts_count_of_category(@category_2).should == '2'
+    @user_2.posts_count_of_category(@category_1).should == '2'
+    @user_2.posts_count_of_category(@category_2).should == '2'
+    @category_1.posts_count_of_user(@user_1).should == '2'
+    @category_1.posts_count_of_user(@user_2).should == '2'
+    @category_2.posts_count_of_user(@user_1).should == '2'
+    @category_2.posts_count_of_user(@user_2).should == '2'
   }
 end

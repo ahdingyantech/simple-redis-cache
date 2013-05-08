@@ -16,10 +16,10 @@ SimpleRedisCache.config do
 
     rules do
       after_save Post do |post|
-        refresh_cache(user)
+        refresh_cache(post.creator)
       end
       after_destroy Post do |post|
-        delete_cache(user)
+        delete_cache(post.creator)
       end
     end
 
@@ -30,10 +30,10 @@ SimpleRedisCache.config do
 
     rules do
       after_save Post do |post|
-        refresh_cache(category)
+        refresh_cache(post.category)
       end
       after_destroy Post do |post|
-        delete_cache(category)
+        delete_cache(post.category)
       end
     end
 
@@ -44,10 +44,10 @@ SimpleRedisCache.config do
   
     rules do
       after_save Post do |post|
-        refresh_cache(user, category)
+        refresh_cache(post.creator, post.category)
       end
       after_destroy Post do |post|
-        delete_cache(user, category)
+        delete_cache(post.creator, post.category)
       end
     end
 
@@ -58,10 +58,10 @@ SimpleRedisCache.config do
     
     rules do
       after_save Post do |post|
-        refresh_cache(category, user)
+        refresh_cache(post.category, post.creator)
       end
       after_destroy Post do |post|
-        delete_cache(category, user)
+        delete_cache(post.category, post.creator)
       end
     end
 
@@ -72,16 +72,15 @@ SimpleRedisCache.config do
   vector_cache  :name => :posts,
                 :params => [],
                 :caller => User,
-                :model => Post
-                do
+                :model => Post do
 
     rules do
       after_save Post do |post|
-        add_to_cache(post.id, user) 
+        add_to_cache(post.id, post.creator)
       end
 
       after_destroy Post do |post|
-        remove_from_cache(post.id, user)
+        remove_from_cache(post.id, post.creator)
       end
     end
 
@@ -91,16 +90,15 @@ SimpleRedisCache.config do
   vector_cache  :name => :posts,
                 :params => [],
                 :caller => Category,
-                :model => Post
-                do
+                :model => Post do
 
     rules do
       after_save Post do |post|
-        add_to_cache(post.id, category) 
+        add_to_cache(post.id, post.category) 
       end
 
       after_destroy Post do |post|
-        remove_from_cache(post.id, category)
+        remove_from_cache(post.id, post.category)
       end
     end
 
@@ -110,35 +108,33 @@ SimpleRedisCache.config do
   vector_cache  :name => :posts_of_category,
                 :params => [:category],
                 :caller => User,
-                :model => Post
-                do
+                :model => Post do
 
     rules do
       after_save Post do |post|
-        add_to_cache(post.id, user, category) 
+        add_to_cache(post.id, post.creator, post.category) 
       end
 
       after_destroy Post do |post|
-        remove_from_cache(post.id, user, category)
+        remove_from_cache(post.id, post.creator, post.category)
       end
     end
 
   end
 
   # 8
-  vector_cache  :name => :posts_count_of_user,
+  vector_cache  :name => :posts_of_user,
                 :params => [:user],
                 :caller => Category,
-                :model => Post
-                do
+                :model => Post do
 
     rules do
       after_save Post do |post|
-        add_to_cache(post.id, category, user) 
+        add_to_cache(post.id, post.category, post.creator) 
       end
 
       after_destroy Post do |post|
-        remove_from_cache(post.id, category, user) 
+        remove_from_cache(post.id, post.category, post.creator) 
       end
     end
 

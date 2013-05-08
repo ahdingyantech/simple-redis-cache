@@ -7,3 +7,5 @@ gem 'activerecord'
 gem 'activesupport'
 
 gem 'database_cleaner', '0.9.1'
+
+gem 'redis', '~> 3.0.4'

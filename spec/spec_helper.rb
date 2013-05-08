@@ -12,6 +12,8 @@ require 'config/db_init'
 require 'migrations'
 require 'models'
 
+require 'config/simple_redis_cache_config'
+
 require 'database_cleaner'
 RSpec.configure do |config|
   config.order = "random"
@@ -31,6 +33,7 @@ RSpec.configure do |config|
   end
 
   config.before(:all) do
+    SimpleRedisCache::RedisCache.flushdb
     MigrationHelper.up
   end
 

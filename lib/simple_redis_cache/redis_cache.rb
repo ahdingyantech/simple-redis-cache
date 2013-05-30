@@ -1,7 +1,7 @@
 module SimpleRedisCache
   class RedisCache
     if SimpleRedisCache::RAILS_ENV == 'test'
-      CACHE_DB = 3
+      CACHE_DB = 15
     else
       CACHE_DB = 2
     end
